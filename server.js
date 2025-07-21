@@ -9,7 +9,16 @@ const contactRoutes = require('./routes/contacts');
 const errorHandler = require('./middleware/errorHandler');
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 5000;
+
+// CORS configuration
+app.use(cors({
+  origin: process.env.NODE_ENV === 'production' ? 
+    ['https://www.taxupchar.com/'] : 
+    ['http://localhost:3000', 'http://localhost:5173', 'http://127.0.0.1:5173'],
+  credentials: true
+}));
+
 
 // Connect to MongoDB Atlas
 connectDatabase();
