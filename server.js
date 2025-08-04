@@ -11,14 +11,6 @@ const errorHandler = require('./middleware/errorHandler');
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// CORS configuration
-app.use(cors({
-  origin: process.env.NODE_ENV === 'production' ? 
-    ['https://www.taxupchar.com/'] : 
-    ['http://localhost:3000', 'http://localhost:5173', 'http://127.0.0.1:5173'],
-  credentials: true
-}));
-
 
 // Connect to MongoDB Atlas
 connectDatabase();
@@ -39,10 +31,12 @@ app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true }));
 
 // CORS configuration
+// Allow all origins
 app.use(cors({
-  origin: true, // Allow all origins
-  credentials: true
+  origin: '*', // Anyone can access
+  credentials: false // Set to false because with origin '*' you can't use credentials (cookies, auth headers)
 }));
+
 
 // Health check endpoint
 app.get('/health', (req, res) => {
